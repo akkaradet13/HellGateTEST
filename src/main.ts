@@ -4,12 +4,9 @@ import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      transport: Transport.TCP,
-    },
-  );
-  app.listen();
+  const app = await NestFactory.create(AppModule);
+  app.enableCors();
+  app.setGlobalPrefix('bookstore');
+  await app.listen(3000);
 }
 bootstrap();

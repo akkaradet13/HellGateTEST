@@ -1,0 +1,14 @@
+import { Controller, Get, Param } from '@nestjs/common';
+import { get } from 'http';
+import { UserDetails } from './user-details.interface';
+import { UserService } from './user.service';
+
+@Controller('user')
+export class UserController {
+    constructor(private UserService: UserService) {}
+
+    @Get(':id')
+    getUser(@Param('id') id: string): Promise<UserDetails | null> {
+        return this.UserService.findById(id);
+    }
+}

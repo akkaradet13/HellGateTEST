@@ -14,4 +14,30 @@ export class BookService {
     const newBook = new this.bookModel({ name, price, description });
     return newBook.save();
   }
+
+  async findAll(): Promise<BookDocument[]> {
+    return this.bookModel.find();
+  }
+
+  async find(id: string): Promise<BookDocument>{
+    return this.bookModel.findById(id).exec();
+  }
+
+  async update(
+    id: string,
+    newName: string,
+    newPrice: number,
+    newDescription: string,
+    ): Promise<BookDocument>{
+      let existingBook = await this.find(id);
+      existingBook.name = newName ?? existingBook.name;
+      existingBook.price = newPrice ?? existingBook.price;
+      existingBook.description = newDescription ?? existingBook.description;
+
+      return existingBook.save();
+  }
+
+  async delete(id: string){
+    return this.bookModel.deleteOne({_id: id}).exec();
+  }
 }
